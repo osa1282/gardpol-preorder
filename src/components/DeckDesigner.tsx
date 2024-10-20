@@ -110,6 +110,9 @@ const DeckDesigner: React.FC = () => {
         ctx.fillText(`H: ${line.height} cm`, 0, 10);
       }
       ctx.restore();
+
+      // Rysowanie kropek na końcach linii
+      drawLineEndpoints(ctx, line);
     });
 
     ctx.restore();
@@ -150,14 +153,23 @@ const DeckDesigner: React.FC = () => {
     } else {
       const existingLine = lines.find(
         (line) =>
-          isPointOnLine(snappedPoint, line) ||
           isPointNearLineEnd(snappedPoint, line)
       );
 
       if (existingLine) {
-        setCurrentLine(existingLine);
-        setSelectedLine(existingLine);
+        // Rozpocznij nową linię od końca istniejącej linii
+        const newLine: Line = {
+          id: Date.now().toString(),
+          start: snappedPoint,
+          end: snappedPoint,
+          type: tool,
+          length: 0,
+        };
+        setCurrentLine(newLine);
+        setLines((prevLines) => [...prevLines, newLine]);
+        setSelectedLine(newLine);
       } else {
+        // Rozpocznij nową linię od dowolnego punktu
         const newLine: Line = {
           id: Date.now().toString(),
           start: snappedPoint,
@@ -169,6 +181,11 @@ const DeckDesigner: React.FC = () => {
         setLines((prevLines) => [...prevLines, newLine]);
         setSelectedLine(newLine);
       }
+    }
+
+    // Dodajemy logikę do przeciągania końców linii
+    if (selectedLine && isPointNearLineEnd(snappedPoint, selectedLine)) {
+      setEditingLine(selectedLine);
     }
   };
 
@@ -219,27 +236,6 @@ const DeckDesigner: React.FC = () => {
     const clickedLine = lines.find((line) => isPointOnLine(snappedPoint, line));
     if (clickedLine) {
       setEditingLine(clickedLine);
-    }
-  };
-
-  const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (editingLine) {
-      const newLength = Number(e.target.value);
-      const angle = Math.atan2(
-        editingLine.end.y - editingLine.start.y,
-        editingLine.end.x - editingLine.start.x
-      );
-      const newEnd = {
-        x: editingLine.start.x + newLength * Math.cos(angle),
-        y: editingLine.start.y + newLength * Math.sin(angle),
-      };
-      const updatedLine = { ...editingLine, end: newEnd, length: newLength };
-      setLines((prevLines) =>
-        prevLines.map((line) =>
-          line.id === updatedLine.id ? updatedLine : line
-        )
-      );
-      setEditingLine(updatedLine);
     }
   };
 
@@ -316,28 +312,81 @@ const DeckDesigner: React.FC = () => {
 
   const calculateTotalArea = (): number => {
     let area = 0;
-    const deckLines = lines.filter((line) => line.type === 'deck');
+    const polygons = groupLinesIntoPolygons(lines);
 
-    if (deckLines.length < 3) return 0;
-
-    // Obliczanie pola powierzchni tarasu
-    for (let i = 0; i < deckLines.length; i++) {
-      const currentLine = deckLines[i];
-      const nextLine = deckLines[(i + 1) % deckLines.length];
-      area +=
-        currentLine.start.x * nextLine.start.y -
-        nextLine.start.x * currentLine.start.y;
-    }
-
-    // Dodawanie pola powierzchni schodów
-    const stairsLines = lines.filter((line) => line.type === 'stairs');
-    stairsLines.forEach((line) => {
-      if (line.height) {
-        area += line.length * line.height;
-      }
+    polygons.forEach((polygon) => {
+      area += calculatePolygonArea(polygon);
     });
 
     return Math.abs(area / 10000); // Konwersja z cm² na m²
+  };
+
+  // Funkcja do grupowania linii w figury geometryczne
+  const groupLinesIntoPolygons = (lines: Line[]): Line[][] => {
+    const polygons: Line[][] = [];
+    const visited = new Set<string>();
+
+    const findPolygon = (startLine: Line): Line[] => {
+        const polygon: Line[] = [];
+        let currentLine = startLine;
+        do {
+            polygon.push(currentLine);
+            visited.add(currentLine.id);
+            const nextLine = lines.find(line => 
+                !visited.has(line.id) && 
+                (line.start.x === currentLine.end.x && line.start.y === currentLine.end.y)
+            );
+            if (nextLine) {
+                currentLine = nextLine;
+            } else {
+                break;
+            }
+        } while (currentLine !== startLine);
+        return polygon;
+    };
+
+    lines.forEach(line => {
+        if (!visited.has(line.id)) {
+            const polygon = findPolygon(line);
+            if (polygon.length > 2) {
+                polygons.push(polygon);
+            }
+        }
+    });
+
+    return polygons;
+  };
+
+  // Funkcja do obliczania pola powierzchni figury geometrycznej
+  const calculatePolygonArea = (polygon: Line[]): number => {
+    const points = polygon.map(line => line.start);
+    points.push(polygon[polygon.length - 1].end); // Dodaj ostatni punkt
+
+    let area = 0;
+    for (let i = 0; i < points.length; i++) {
+        const j = (i + 1) % points.length;
+        area += points[i].x * points[j].y;
+        area -= points[j].x * points[i].y;
+    }
+    return Math.abs(area / 2);
+  };
+
+  // Dodajemy funkcję do rysowania kropek na końcach linii
+  const drawLineEndpoints = (ctx: CanvasRenderingContext2D, line: Line) => {
+    ctx.fillStyle = '#000000';
+    ctx.beginPath();
+    ctx.arc(line.start.x, line.start.y, 5 / zoom, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(line.end.x, line.end.y, 5 / zoom, 0, 2 * Math.PI);
+    ctx.fill();
+  };
+
+  const clearProject = () => {
+    setLines([]);
+    setSelectedLine(null);
+    setCurrentLine(null);
+    setEditingLine(null);
   };
 
   return (
@@ -410,6 +459,12 @@ const DeckDesigner: React.FC = () => {
           <Download className="inline-block mr-2" />
           Eksportuj
         </button>
+        <button
+          className="px-4 py-2 rounded bg-red-500 text-white"
+          onClick={clearProject}
+        >
+          Wyczyść projekt
+        </button>
       </div>
       <div
         className="border border-gray-300 rounded"
@@ -427,21 +482,7 @@ const DeckDesigner: React.FC = () => {
       </div>
       {selectedLine && (
         <div className="mt-4 space-y-2">
-          <div>
-            <label
-              htmlFor="lineLength"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Długość linii (cm):
-            </label>
-            <input
-              type="number"
-              id="lineLength"
-              value={selectedLine.length.toFixed(0)}
-              onChange={handleLengthChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            />
-          </div>
+          {/* Usunięcie pola "Długość linii" */}
           {selectedLine.type === 'stairs' && (
             <div>
               <label
