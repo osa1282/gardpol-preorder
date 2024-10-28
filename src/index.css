@@ -1,11 +1,11 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 @layer base {
@@ -20,6 +20,35 @@ body {
   }
   .btn-primary {
     @apply bg-green-600 text-white hover:bg-green-700;
+  }
+  .slider {
+    @apply appearance-none bg-transparent absolute top-0 left-0 w-full h-2 m-0 p-0;
+  }
+  .slider::-webkit-slider-thumb {
+    @apply appearance-none w-5 h-5 bg-white border-2 border-green-500 rounded-full cursor-pointer shadow-md relative z-10;
+    -webkit-appearance: none;
+    margin-top: -6px;
+    box-shadow: 0 0 0 3px white, 0 0 0 4px #22c55e;
+  }
+  .slider::-moz-range-thumb {
+    @apply w-5 h-5 bg-white border-2 border-green-500 rounded-full cursor-pointer shadow-md relative z-10;
+    margin-top: -6px;
+    box-shadow: 0 0 0 3px white, 0 0 0 4px #22c55e;
+  }
+  .slider:focus {
+    @apply outline-none;
+  }
+  .slider:focus::-webkit-slider-thumb {
+    @apply ring-2 ring-green-200;
+  }
+  .slider:focus::-moz-range-thumb {
+    @apply ring-2 ring-green-200;
+  }
+  .slider::-webkit-slider-runnable-track {
+    @apply w-full h-2 cursor-pointer bg-transparent;
+  }
+  .slider::-moz-range-track {
+    @apply w-full h-2 cursor-pointer bg-transparent;
   }
 }
 
