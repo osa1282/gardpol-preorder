@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 //import Header from './components/Header';
 import Hero from './components/Hero';
@@ -14,6 +14,27 @@ import DeckDesigner from './components/DeckDesigner';
 const App: React.FC = () => {
   const [deckSize, setDeckSize] = useState(20);
   const [isDeckDesignerOpen, setIsDeckDesignerOpen] = useState(false);
+
+  // Dodajemy useEffect, aby wysyłać wysokość strony do rodzica (np. w iframe)
+  useEffect(() => {
+    const sendHeight = () => {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ height }, '*');
+    };
+
+    // Wyślij wysokość po załadowaniu strony oraz przy każdej zmianie rozmiaru
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+
+    // Wyślij wysokość od razu przy załadowaniu komponentu
+    sendHeight();
+
+    // Sprzątaj po odejściu komponentu
+    return () => {
+      window.removeEventListener('load', sendHeight);
+      window.removeEventListener('resize', sendHeight);
+    };
+  }, []);
 
   return (
     <Router>
