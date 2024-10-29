@@ -20,7 +20,7 @@ const App: React.FC = () => {
   // Dodajemy useEffect, aby wysyłać wysokość strony do rodzica (np. w iframe)
   useEffect(() => {
     const sendHeight = () => {
-      const height = document.body.scrollHeight;
+      const height = document.documentElement.scrollHeight;
       window.parent.postMessage({ height }, '*');
     };
 
