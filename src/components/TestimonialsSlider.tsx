@@ -9,8 +9,6 @@ import { Testimonial } from '../types/testimonial';
 export default function TestimonialsSlider() {
   // Stan do przechowywania aktualnego indeksu slajdu
   const [currentIndex, setCurrentIndex] = useState(0);
-  // Stan do kontrolowania animacji
-  const [isAnimating] = useState(false);
   // Stan do kontrolowania przeciągania
   const [isDragging] = useState(false);
   // Liczba elementów na stronę
@@ -42,13 +40,17 @@ export default function TestimonialsSlider() {
   // Użycie efektu do automatycznego przechodzenia slajdów
   useEffect(() => {
     const timer = setInterval(() => {
-      if (!isDragging && currentIndex < testimonials.length - itemsPerPage) {
-        nextSlide(); // Przechodzi do następnego slajdu, jeśli nie przeciągamy i nie jesteśmy na końcu
-      }
-    }, 5000); // Co 5 sekund
-
+      // Przejdź do następnego slajdu, jeśli nie przeciągamy i nie jesteśmy na końcu
+      setCurrentIndex(prevIndex => {
+        if (!isDragging && prevIndex < testimonials.length - itemsPerPage) {
+          return prevIndex + itemsPerPage;
+        }
+        return prevIndex; // Zatrzymaj indeks, jeśli spełnione są warunki końcowe
+      });
+    }, 4000); // Co 5 sekund
+  
     return () => clearInterval(timer); // Czyści timer po odmontowaniu komponentu
-  }, [currentIndex, isAnimating, isDragging]);
+  }, [isDragging, itemsPerPage, testimonials.length]);
 
   // Widoczne opinie
   const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + itemsPerPage);
@@ -64,7 +66,7 @@ export default function TestimonialsSlider() {
   }, [currentIndex, controls, slidePosition]);
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#f9fafb] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="relative px-4 pb-12">
           <div className="overflow-hidden mb-8">
