@@ -40,14 +40,18 @@ export default function TestimonialsSlider() {
   // Użycie efektu do automatycznego przechodzenia slajdów
   useEffect(() => {
     const timer = setInterval(() => {
-      // Przejdź do następnego slajdu, jeśli nie przeciągamy i nie jesteśmy na końcu
       setCurrentIndex(prevIndex => {
-        if (!isDragging && prevIndex < testimonials.length - itemsPerPage) {
+        if (!isDragging) {
+          // Jeśli jesteśmy na końcu, wracamy do początku
+          if (prevIndex >= testimonials.length - itemsPerPage) {
+            return 0;
+          }
+          // W przeciwnym razie przechodzimy do następnego zestawu
           return prevIndex + itemsPerPage;
         }
-        return prevIndex; // Zatrzymaj indeks, jeśli spełnione są warunki końcowe
+        return prevIndex;
       });
-    }, 4000); // Co 5 sekund
+    }, 5000); // Co 5 sekundy
   
     return () => clearInterval(timer); // Czyści timer po odmontowaniu komponentu
   }, [isDragging, itemsPerPage, testimonials.length]);
