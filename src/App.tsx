@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Hero from './components/Hero';
 import WhyChooseUs from './components/WhyChooseUs';
 import SavingsCalculator from './components/SavingsCalculator';
-import PurchaseProcess from './components/PurchaseProcess';
+//import PurchaseProcess from './components/PurchaseProcess';
 import FAQ from './components/FAQ';
 import CustomerReviews from './components/CustomerReviews';
 import Preorder from './components/Preorder';
-import DeckDesigner from './components/DeckDesigner';
+//import DeckDesigner from './components/DeckDesigner';
+import HowItWorks from './components/HowItWorks';
 //import Footer from './components/Footer';
 
 const App: React.FC = () => {
@@ -46,8 +47,8 @@ const App: React.FC = () => {
                 <Hero />
                 <WhyChooseUs />
                 <SavingsCalculator deckSize={deckSize} setDeckSize={setDeckSize} />
-                <button onClick={() => setIsDeckDesignerOpen(true)}>Otwórz Projektant Tarasu</button>
-                <PurchaseProcess />
+                {/* <button onClick={() => setIsDeckDesignerOpen(true)}>Otwórz Projektant Tarasu</button> */}
+                <HowItWorks />
                 <FAQ />
                 <CustomerReviews />
               </>
@@ -55,12 +56,12 @@ const App: React.FC = () => {
             <Route path="/przedsprzedaz" element={<Preorder />} />
           </Routes>
         </main>
-        {isDeckDesignerOpen && (
+        {/*{isDeckDesignerOpen && (
           <div className="popup">
             <DeckDesigner />
             <button onClick={() => setIsDeckDesignerOpen(false)}>Zamknij</button>
           </div>
-        )}
+        )}*/}
       </div>
     </Router>
   );
