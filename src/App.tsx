@@ -41,14 +41,13 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
-        <main className="flex-grow">
+        <main className="flex-grow container mx-auto px-4">
           <Routes>
             <Route path="/" element={
               <>
                 <Hero />
                 <WhyChooseUs />
                 <SavingsCalculator deckSize={deckSize} setDeckSize={setDeckSize} />
-                {/* <button onClick={() => setIsDeckDesignerOpen(true)}>Otwórz Projektant Tarasu</button> */}
                 <HowItWorks />
                 <FAQ />
                 <TestimonialsSlider />

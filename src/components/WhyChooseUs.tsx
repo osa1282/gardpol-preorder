@@ -54,9 +54,9 @@ const WhyChooseUs: React.FC = () => {
           Dlaczego nas <span className="text-[#07bc0c]">wybrać?</span>
         </h2>
         <div className="relative">
-          <div className="flex justify-between relative z-10 mb-8">
+          <div className="flex flex-wrap justify-between relative z-10 mb-8">
             {reasons.map((reason, index) => (
-              <div key={index} className="flex flex-col items-center w-1/5">
+              <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-8">
                 <div
                   className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg 
                     ${isVisible && index <= activeIndex
@@ -79,9 +79,9 @@ const WhyChooseUs: React.FC = () => {
               style={{ width: isVisible ? `${((activeIndex + 1) / reasons.length) * 100}%` : '0%' }}
             ></div>
           </div>
-          <div className="flex justify-between relative z-10 pt-12">
+          <div className="flex flex-wrap justify-between relative z-10 pt-12">
             {reasons.map((reason, index) => (
-              <div key={index} className="flex flex-col items-center w-1/5">
+              <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-8">
                 <div
                   className={`text-center transition-all duration-500 ${
                     isVisible && index <= activeIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'

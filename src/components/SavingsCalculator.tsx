@@ -149,7 +149,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <Layers className="mr-2 text-green-600" />
               Rodzaj deski
             </label>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {deckTypes.map((deckType) => (
                 <button
                   key={deckType.name}
@@ -157,13 +157,15 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
                     setSelectedDeckType(deckType);
                     setSelectedDeskLength(deckType.lengths[0]);
                   }}
-                  className={`p-2 border rounded-lg transition-all ${
+                  className={`p-2 border rounded-lg transition-all flex flex-col items-center ${
                     selectedDeckType.name === deckType.name
                       ? 'border-green-500 shadow-md bg-green-50'
                       : 'border-gray-300 hover:border-green-300 hover:bg-green-50'
                   }`}
                 >
-                  <img src={deckType.image} alt={deckType.name} className="w-full h-32 object-cover mb-2 rounded" />
+                  <div className="w-full h-32 flex items-center justify-center mb-2">
+                    <img src={deckType.image} alt={deckType.name} className="max-h-full max-w-full object-contain" />
+                  </div>
                   <p className="text-center font-medium">{deckType.name}</p>
                 </button>
               ))}

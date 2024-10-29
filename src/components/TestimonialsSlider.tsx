@@ -86,8 +86,7 @@ export default function TestimonialsSlider() {
               {testimonials.map((testimonial: Testimonial) => (
                 <div
                   key={testimonial.id}
-                  className="w-full flex-shrink-0 p-4"
-                  style={{ flex: '0 0 calc(33.333% - 1rem)' }}
+                  className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 p-4"
                 >
                   <TestimonialCard testimonial={testimonial} />
                 </div>
