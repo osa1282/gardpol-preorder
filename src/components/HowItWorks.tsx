@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ShoppingCart, Timer, Package, Warehouse, Truck } from 'lucide-react';
-import StepCard from './StepCard';
+import StepCard from '../components/StepCard';
 
 const steps = [
   {

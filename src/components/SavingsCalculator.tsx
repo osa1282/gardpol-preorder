@@ -66,7 +66,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
     const legarPricePerMeter = 17.04;
     const klipsRegularPrice = 135.28;
     const listwaSelectRegularPrice = 11.34;
-    const discount = 0.6;
+    const discount = 0.8;
 
     setProducts([
       { 

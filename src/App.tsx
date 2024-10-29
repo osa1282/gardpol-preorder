@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-//import Header from './components/Header';
 import Hero from './components/Hero';
 import WhyChooseUs from './components/WhyChooseUs';
 import SavingsCalculator from './components/SavingsCalculator';
-//import PurchaseProcess from './components/PurchaseProcess';
 import FAQ from './components/FAQ';
-import CustomerReviews from './components/CustomerReviews';
 import Preorder from './components/Preorder';
-//import DeckDesigner from './components/DeckDesigner';
+import TestimonialsSlider from './components/TestimonialsSlider';
 import HowItWorks from './components/HowItWorks';
 //import Footer from './components/Footer';
+//import DeckDesigner from './components/DeckDesigner';
+//import CustomerReviews from './components/CustomerReviews';
+//import PurchaseProcess from './components/PurchaseProcess';
+//import Header from './components/Header';
 
 const App: React.FC = () => {
   const [deckSize, setDeckSize] = useState(20);
-  const [isDeckDesignerOpen, setIsDeckDesignerOpen] = useState(false);
+  // const [isDeckDesignerOpen, setIsDeckDesignerOpen] = useState(false);
 
   // Dodajemy useEffect, aby wysyłać wysokość strony do rodzica (np. w iframe)
   useEffect(() => {
@@ -50,7 +51,7 @@ const App: React.FC = () => {
                 {/* <button onClick={() => setIsDeckDesignerOpen(true)}>Otwórz Projektant Tarasu</button> */}
                 <HowItWorks />
                 <FAQ />
-                <CustomerReviews />
+                <TestimonialsSlider />
               </>
             } />
             <Route path="/przedsprzedaz" element={<Preorder />} />
