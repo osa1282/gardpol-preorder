@@ -48,13 +48,13 @@ const WhyChooseUs: React.FC = () => {
   }, [isVisible, activeIndex]);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-white to-gray-100">
+    <section ref={sectionRef} className="py-12 bg-gradient-to-b from-white to-gray-100">
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-24 text-gray-800">
+        <h2 className="text-5xl font-bold text-center mb-12 text-gray-800">
           Dlaczego nas <span className="text-[#07bc0c]">wybrać?</span>
         </h2>
         <div className="relative">
-          <div className="flex flex-wrap justify-between relative z-10 mb-8">
+          <div className="flex flex-wrap justify-center relative z-10">
             {reasons.map((reason, index) => (
               <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-8">
                 <div
@@ -70,20 +70,8 @@ const WhyChooseUs: React.FC = () => {
                     className: "transition-all duration-300 group-hover:scale-110" 
                   })}
                 </div>
-              </div>
-            ))}
-          </div>
-          <div className="absolute left-0 right-0 h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#07bc0c] transition-all duration-1000 ease-out rounded-full"
-              style={{ width: isVisible ? `${((activeIndex + 1) / reasons.length) * 100}%` : '0%' }}
-            ></div>
-          </div>
-          <div className="flex flex-wrap justify-between relative z-10 pt-12">
-            {reasons.map((reason, index) => (
-              <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-8">
                 <div
-                  className={`text-center transition-all duration-500 ${
+                  className={`text-center transition-all duration-500 mt-4 ${
                     isVisible && index <= activeIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}
                 >
