@@ -87,13 +87,13 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
         runningMeters: legarRunningMeters
       },
       { 
-        name: 'Klipsy z wkrÄ™tem (100 szt.)', 
+        name: 'Klipsy z wkrętem (100 szt.)', 
         regularPrice: klipsRegularPrice,
         discountedPrice: klipsRegularPrice * 0.7,
         quantity: Math.ceil(klipsQuantity / 100) 
       },
       { 
-        name: 'Listwa kÄ…towa 4m', 
+        name: 'Listwa kątowa 4m', 
         regularPrice: listwaSelectRegularPrice * 4, 
         discountedPrice: (listwaSelectRegularPrice * 0.8) * 4, 
         quantity: listwaQuantity,
@@ -117,7 +117,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
   return (
     <section className="bg-[#f0f5f2] py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-green-800">Oblicz swoje oszczÄ™dnoÅ›ci</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-green-800">Oblicz swoje oszczędności</h2>
         <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-xl">
           <div className="mb-8">
             <label htmlFor="deckSize" className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
@@ -125,7 +125,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               Rozmiar tarasu
             </label>
             <div className="flex items-center justify-center mb-4">
-              <span className="text-3xl font-bold text-green-600">{deckSize} mÂ²</span>
+              <span className="text-3xl font-bold text-green-600">{deckSize} m²</span>
             </div>
             <div className="relative pt-1">
               <input
@@ -143,8 +143,8 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               ></div>
             </div>
             <div className="flex justify-between mt-2 text-sm text-gray-600">
-              <span>10 mÂ²</span>
-              <span>100 mÂ²</span>
+              <span>10 m²</span>
+              <span>100 m²</span>
             </div>
           </div>
           <div className="mb-8">
@@ -177,7 +177,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
           <div className="mb-8">
             <label className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
               <Ruler className="mr-2 text-green-600" />
-              DÅ‚ugoÅ›Ä‡ deski
+              Długość deski
             </label>
             <div className="flex flex-wrap gap-2">
               {selectedDeckType.lengths.map((length) => (
@@ -198,7 +198,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
           <div className="mb-8">
             <label className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
               <Ruler className="mr-2 text-green-600" />
-              DÅ‚ugoÅ›Ä‡ legara
+              Długość legara
             </label>
             <div className="flex flex-wrap gap-2">
               {legarLengths.map((length) => (
@@ -219,7 +219,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
           <div className="mb-8">
             <label htmlFor="listwaLength" className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
               <Ruler className="mr-2 text-green-600" />
-              DÅ‚ugoÅ›Ä‡ listwy kÄ…towej
+              Długość listwy kątowej
             </label>
             <div className="flex items-center">
               <div className="relative w-40">
@@ -250,7 +250,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <span className="ml-2 text-lg">m</span>
             </div>
             <p className="mt-2 text-sm text-gray-600">
-              WprowadÅº dÅ‚ugoÅ›Ä‡ listwy kÄ…towej potrzebnej do wykoÅ„czenia tarasu (opcjonalnie).
+              Wprowadź długość listwy kątowej potrzebnej do wykończenia tarasu (opcjonalnie).
             </p>
           </div>
           <div className="overflow-x-auto bg-white rounded-lg shadow mb-8">
@@ -258,11 +258,11 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <thead>
                 <tr className="bg-green-100">
                   <th className="p-3 border-b border-green-200">Produkt</th>
-                  <th className="p-3 border-b border-green-200">IloÅ›Ä‡</th>
-                  <th className="p-3 border-b border-green-200">Metry bieÅ¼Ä…ce</th>
+                  <th className="p-3 border-b border-green-200">Ilość</th>
+                  <th className="p-3 border-b border-green-200">Metry bieżące</th>
                   <th className="p-3 border-b border-green-200">Cena regularna</th>
                   <th className="p-3 border-b border-green-200">Cena po rabacie</th>
-                  <th className="p-3 border-b border-green-200 bg-green-200">OszczÄ™dnoÅ›Ä‡</th>
+                  <th className="p-3 border-b border-green-200 bg-green-200">Oszczędność</th>
                 </tr>
               </thead>
               <tbody>
@@ -271,10 +271,10 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
                     <td className="p-3 border-b">{product.name}</td>
                     <td className="p-3 border-b">{product.quantity}</td>
                     <td className="p-3 border-b">{product.runningMeters?.toFixed(2) || '-'}</td>
-                    <td className="p-3 border-b">{formatNumber(product.regularPrice * product.quantity)} zÅ‚</td>
-                    <td className="p-3 border-b">{formatNumber(product.discountedPrice * product.quantity)} zÅ‚</td>
+                    <td className="p-3 border-b">{formatNumber(product.regularPrice * product.quantity)} zł‚</td>
+                    <td className="p-3 border-b">{formatNumber(product.discountedPrice * product.quantity)} zł‚</td>
                     <td className="p-3 border-b bg-green-50 font-medium text-green-700">
-                      {formatNumber((product.regularPrice - product.discountedPrice) * product.quantity)} zÅ‚
+                      {formatNumber((product.regularPrice - product.discountedPrice) * product.quantity)} zł‚
                     </td>
                   </tr>
                 ))}
@@ -282,20 +282,20 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <tfoot>
                 <tr className="bg-green-100 font-bold">
                   <td className="p-3 border-t border-green-200" colSpan={3}>Suma</td>
-                  <td className="p-3 border-t border-green-200">{formatNumber(totalRegularPrice)} zÅ‚</td>
-                  <td className="p-3 border-t border-green-200">{formatNumber(totalDiscountedPrice)} zÅ‚</td>
-                  <td className="p-3 border-t border-green-200 bg-green-200 text-green-800">{formatNumber(totalSavings)} zÅ‚</td>
+                  <td className="p-3 border-t border-green-200">{formatNumber(totalRegularPrice)} zł‚</td>
+                  <td className="p-3 border-t border-green-200">{formatNumber(totalDiscountedPrice)} zł‚</td>
+                  <td className="p-3 border-t border-green-200 bg-green-200 text-green-800">{formatNumber(totalSavings)} zł‚</td>
                 </tr>
               </tfoot>
             </table>
           </div>
           <div className="text-center bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-lg shadow-lg">
-            <p className="text-lg text-white mb-2">Twoje caÅ‚kowite oszczÄ™dnoÅ›ci</p>
-            <p className="text-5xl font-bold text-white mb-8">{formatNumber(totalSavings)} zÅ‚</p>
+            <p className="text-lg text-white mb-2">Twoje całkowite oszczędności</p>
+            <p className="text-5xl font-bold text-white mb-8">{formatNumber(totalSavings)} zł‚</p>
             
             <hr className="w-4/5 mx-auto border-0 h-[4px] bg-white/80 my-8 rounded-full" />
             
-            <p className="text-[1.5rem] text-white mb-6">ZadzwoÅ„ juÅ¼ teraz i uzyskaj dokÅ‚adnÄ… ofertÄ™ od naszego handlowca!</p>
+            <p className="text-[1.5rem] text-white mb-6">Zadzwoń już teraz i uzyskaj dokładną ofertę od naszego handlowca!</p>
             <a 
               href="tel:+48799399972" 
               className="inline-flex items-center justify-center gap-2 bg-white text-green-600 px-6 py-3 rounded-full text-xl font-semibold hover:bg-green-50 transition-colors"
