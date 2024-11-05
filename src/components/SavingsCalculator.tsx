@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Ruler, Layers, Maximize2, ChevronUp, ChevronDown } from 'lucide-react';
+import { Ruler, Layers, Maximize2, ChevronUp, ChevronDown, Phone } from 'lucide-react';
 
 interface SavingsCalculatorProps {
   deckSize: number;
@@ -12,6 +12,7 @@ interface DeckType {
   lengths: number[];
   width: number;
   pricePerMeter: number;
+  discount: number;
 }
 
 interface Product {
@@ -26,27 +27,30 @@ const deckTypes: DeckType[] = [
   {
     name: 'SELECT',
     image: 'https://gardpol.pl/img/products/16/1_max.jpg?v=1727252048',
-    lengths: [3.5, 4, 4.5, 5, 5.8],
+    lengths: [5.8],
     width: 0.14,
-    pricePerMeter: 50,
+    pricePerMeter: 29.57,
+    discount: 0.6,
   },
   {
     name: 'Gardpol Premium',
     image: 'https://gardpol.pl/img/products/89/1_max.jpg?v=1727252048',
     lengths: [5.8],
     width: 0.135,
-    pricePerMeter: 60,
+    pricePerMeter: 30.98,
+    discount: 0.6,
   },
   {
     name: 'DUO',
     image: 'https://gardpol.pl/img/products/11/2_max.jpg?v=1727252048',
     lengths: [3.5, 4, 4.5, 5, 5.8],
     width: 0.148,
-    pricePerMeter: 55,
+    pricePerMeter: 37.35,
+    discount: 0.8,
   },
 ];
 
-const legarLengths = [2, 2.9, 4];
+const legarLengths = [2.9, 4];
 
 const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeckSize }) => {
   const [listwaLength, setListwaLength] = useState(0);
@@ -66,33 +70,32 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
     const legarPricePerMeter = 17.04;
     const klipsRegularPrice = 135.28;
     const listwaSelectRegularPrice = 11.34;
-    const discount = 0.8;
 
     setProducts([
       { 
         name: `Deska ${selectedDeckType.name} ${selectedDeskLength}m`, 
         regularPrice: selectedDeckType.pricePerMeter * selectedDeskLength, 
-        discountedPrice: selectedDeckType.pricePerMeter * selectedDeskLength * discount, 
+        discountedPrice: selectedDeckType.pricePerMeter * selectedDeskLength * selectedDeckType.discount, 
         quantity: deskaQuantity,
         runningMeters: deskaRunningMeters
       },
       { 
-        name: `Legar ${selectedLegarLength}m`, 
+        name: `Legar kompozytowy ${selectedLegarLength}m`, 
         regularPrice: legarPricePerMeter * selectedLegarLength, 
-        discountedPrice: legarPricePerMeter * selectedLegarLength * discount, 
+        discountedPrice: legarPricePerMeter * selectedLegarLength * 0.7, 
         quantity: legarQuantity,
         runningMeters: legarRunningMeters
       },
       { 
-        name: 'Klipsy (opak. 100 szt.)', 
+        name: 'Klipsy z wkrÄ™tem (100 szt.)', 
         regularPrice: klipsRegularPrice,
-        discountedPrice: klipsRegularPrice * discount,
+        discountedPrice: klipsRegularPrice * 0.7,
         quantity: Math.ceil(klipsQuantity / 100) 
       },
       { 
-        name: 'Listwa kątowa 4m', 
+        name: 'Listwa kÄ…towa 4m', 
         regularPrice: listwaSelectRegularPrice * 4, 
-        discountedPrice: (listwaSelectRegularPrice * discount) * 4, 
+        discountedPrice: (listwaSelectRegularPrice * 0.8) * 4, 
         quantity: listwaQuantity,
         runningMeters: listwaLength
       },
@@ -112,9 +115,9 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
   };
 
   return (
-    <section className="bg-gradient-to-br from-green-50 to-green-100 py-20">
+    <section className="bg-[#f0f5f2] py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-green-800">Oblicz swoje oszczędności</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-green-800">Oblicz swoje oszczÄ™dnoÅ›ci</h2>
         <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-xl">
           <div className="mb-8">
             <label htmlFor="deckSize" className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
@@ -122,7 +125,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               Rozmiar tarasu
             </label>
             <div className="flex items-center justify-center mb-4">
-              <span className="text-3xl font-bold text-green-600">{deckSize} m²</span>
+              <span className="text-3xl font-bold text-green-600">{deckSize} mÂ²</span>
             </div>
             <div className="relative pt-1">
               <input
@@ -140,8 +143,8 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               ></div>
             </div>
             <div className="flex justify-between mt-2 text-sm text-gray-600">
-              <span>10 m²</span>
-              <span>100 m²</span>
+              <span>10 mÂ²</span>
+              <span>100 mÂ²</span>
             </div>
           </div>
           <div className="mb-8">
@@ -174,7 +177,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
           <div className="mb-8">
             <label className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
               <Ruler className="mr-2 text-green-600" />
-              Długość deski
+              DÅ‚ugoÅ›Ä‡ deski
             </label>
             <div className="flex flex-wrap gap-2">
               {selectedDeckType.lengths.map((length) => (
@@ -195,7 +198,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
           <div className="mb-8">
             <label className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
               <Ruler className="mr-2 text-green-600" />
-              Długość legara
+              DÅ‚ugoÅ›Ä‡ legara
             </label>
             <div className="flex flex-wrap gap-2">
               {legarLengths.map((length) => (
@@ -216,7 +219,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
           <div className="mb-8">
             <label htmlFor="listwaLength" className="block text-lg font-medium text-gray-700 mb-2 flex items-center">
               <Ruler className="mr-2 text-green-600" />
-              Długość listwy kątowej
+              DÅ‚ugoÅ›Ä‡ listwy kÄ…towej
             </label>
             <div className="flex items-center">
               <div className="relative w-40">
@@ -247,7 +250,7 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <span className="ml-2 text-lg">m</span>
             </div>
             <p className="mt-2 text-sm text-gray-600">
-              Wprowadź długość listwy kątowej potrzebnej do wykończenia tarasu (opcjonalnie).
+              WprowadÅº dÅ‚ugoÅ›Ä‡ listwy kÄ…towej potrzebnej do wykoÅ„czenia tarasu (opcjonalnie).
             </p>
           </div>
           <div className="overflow-x-auto bg-white rounded-lg shadow mb-8">
@@ -255,11 +258,11 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <thead>
                 <tr className="bg-green-100">
                   <th className="p-3 border-b border-green-200">Produkt</th>
-                  <th className="p-3 border-b border-green-200">Ilość</th>
-                  <th className="p-3 border-b border-green-200">Metry bieżące</th>
+                  <th className="p-3 border-b border-green-200">IloÅ›Ä‡</th>
+                  <th className="p-3 border-b border-green-200">Metry bieÅ¼Ä…ce</th>
                   <th className="p-3 border-b border-green-200">Cena regularna</th>
                   <th className="p-3 border-b border-green-200">Cena po rabacie</th>
-                  <th className="p-3 border-b border-green-200 bg-green-200">Oszczędność</th>
+                  <th className="p-3 border-b border-green-200 bg-green-200">OszczÄ™dnoÅ›Ä‡</th>
                 </tr>
               </thead>
               <tbody>
@@ -268,10 +271,10 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
                     <td className="p-3 border-b">{product.name}</td>
                     <td className="p-3 border-b">{product.quantity}</td>
                     <td className="p-3 border-b">{product.runningMeters?.toFixed(2) || '-'}</td>
-                    <td className="p-3 border-b">{formatNumber(product.regularPrice * product.quantity)} zł</td>
-                    <td className="p-3 border-b">{formatNumber(product.discountedPrice * product.quantity)} zł</td>
+                    <td className="p-3 border-b">{formatNumber(product.regularPrice * product.quantity)} zÅ‚</td>
+                    <td className="p-3 border-b">{formatNumber(product.discountedPrice * product.quantity)} zÅ‚</td>
                     <td className="p-3 border-b bg-green-50 font-medium text-green-700">
-                      {formatNumber((product.regularPrice - product.discountedPrice) * product.quantity)} zł
+                      {formatNumber((product.regularPrice - product.discountedPrice) * product.quantity)} zÅ‚
                     </td>
                   </tr>
                 ))}
@@ -279,16 +282,27 @@ const SavingsCalculator: React.FC<SavingsCalculatorProps> = ({ deckSize, setDeck
               <tfoot>
                 <tr className="bg-green-100 font-bold">
                   <td className="p-3 border-t border-green-200" colSpan={3}>Suma</td>
-                  <td className="p-3 border-t border-green-200">{formatNumber(totalRegularPrice)} zł</td>
-                  <td className="p-3 border-t border-green-200">{formatNumber(totalDiscountedPrice)} zł</td>
-                  <td className="p-3 border-t border-green-200 bg-green-200 text-green-800">{formatNumber(totalSavings)} zł</td>
+                  <td className="p-3 border-t border-green-200">{formatNumber(totalRegularPrice)} zÅ‚</td>
+                  <td className="p-3 border-t border-green-200">{formatNumber(totalDiscountedPrice)} zÅ‚</td>
+                  <td className="p-3 border-t border-green-200 bg-green-200 text-green-800">{formatNumber(totalSavings)} zÅ‚</td>
                 </tr>
               </tfoot>
             </table>
           </div>
           <div className="text-center bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-lg shadow-lg">
-            <p className="text-lg text-white mb-2">Twoje całkowite oszczędności</p>
-            <p className="text-5xl font-bold text-white">{formatNumber(totalSavings)} zł</p>
+            <p className="text-lg text-white mb-2">Twoje caÅ‚kowite oszczÄ™dnoÅ›ci</p>
+            <p className="text-5xl font-bold text-white mb-8">{formatNumber(totalSavings)} zÅ‚</p>
+            
+            <hr className="w-4/5 mx-auto border-0 h-[4px] bg-white/80 my-8 rounded-full" />
+            
+            <p className="text-[1.5rem] text-white mb-6">ZadzwoÅ„ juÅ¼ teraz i uzyskaj dokÅ‚adnÄ… ofertÄ™ od naszego handlowca!</p>
+            <a 
+              href="tel:+48799399972" 
+              className="inline-flex items-center justify-center gap-2 bg-white text-green-600 px-6 py-3 rounded-full text-xl font-semibold hover:bg-green-50 transition-colors"
+            >
+              <Phone className="w-6 h-6" />
+              +48 799 399 972
+            </a>
           </div>
         </div>
       </div>

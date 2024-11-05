@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
         <div className="md:w-1/2 mb-10 md:mb-0 md:pr-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-            Przedsprzedaż - Zamów już teraz i oszczędź 40%!
+            Przedsprzedaż - zamów już teraz i oszczędź do 40%!
           </h1>
           <p className="text-xl mb-8 text-gray-600">
             Odkryj unikalne zalety naszej oferty i zobacz, jak możemy pomóc Ci zaoszczędzić!
